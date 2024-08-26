@@ -2,15 +2,18 @@ import React, { useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Card, Row, Col, Container, ListGroup } from 'react-bootstrap';
 import { getUserDashboardData } from '../../store/actions/dashboardActions';
+import { getUserContacts } from '../../store/actions/contactActions';
 import { FaUser, FaAddressBook, FaComments } from 'react-icons/fa';
 
 const UserDashboard = () => {
   const dispatch = useDispatch();
   const { user } = useSelector(state => state.auth);
-  const { recentContacts, recentCommunications } = useSelector(state => state.dashboard);
+  const { recentCommunications } = useSelector(state => state.dashboard);
+  const { contacts } = useSelector(state => state.contacts);
 
   useEffect(() => {
     dispatch(getUserDashboardData());
+    dispatch(getUserContacts());
   }, [dispatch]);
 
   return (
@@ -35,9 +38,11 @@ const UserDashboard = () => {
               <FaAddressBook className="me-2" />Recent Contacts
             </Card.Header>
             <ListGroup variant="flush">
-              {recentContacts && recentContacts.length > 0 ? (
-                recentContacts.map(contact => (
-                  <ListGroup.Item key={contact._id}>{contact.name} - {contact.email}</ListGroup.Item>
+              {contacts && contacts.length > 0 ? (
+                contacts.slice(0, 5).map(contact => (
+                  <ListGroup.Item key={contact._id}>
+                    {contact.name} - {contact.email}
+                  </ListGroup.Item>
                 ))
               ) : (
                 <ListGroup.Item>No recent contacts</ListGroup.Item>
@@ -52,7 +57,6 @@ const UserDashboard = () => {
             </Card.Header>
             <ListGroup variant="flush">
               {recentCommunications && recentCommunications.map(comm => (
-
                 <ListGroup.Item key={comm._id}>
                   {comm.type} with {comm.customerName} on {new Date(comm.date).toLocaleDateString()}
                 </ListGroup.Item>

@@ -25,6 +25,7 @@ const Navbar = () => {
           <Nav.Link as={Link} to="/communications"><FaComments className="me-2" />Communications</Nav.Link>
           <Nav.Link as={Link} to="/contacts"><FaUsers className="me-2" />Contacts</Nav.Link>
           <Nav.Link as={Link} to="/feedback"><FaClipboardList className="me-2" />Feedback</Nav.Link>
+          <Nav.Link as={Link} to="/queries"><FaClipboardList className="me-2" />Queries</Nav.Link>
           <Nav.Link as={Link} to="/admin/reports"><FaChartBar className="me-2" />Reports</Nav.Link>
           <Dropdown as={Nav.Item}>
             <Dropdown.Toggle as={Nav.Link}><FaCog className="me-2" />Admin</Dropdown.Toggle>
@@ -40,6 +41,7 @@ const Navbar = () => {
           <Nav.Link as={Link} to="/userdashboard"><FaChartBar className="me-2" />Dashboard</Nav.Link>
           <Nav.Link as={Link} to="/user/contacts"><FaUsers className="me-2" />Contacts</Nav.Link>
           <Nav.Link as={Link} to="/feedback/feedbackForm"><FaClipboardList className="me-2" />Feedback</Nav.Link>
+          <Nav.Link as={Link} to="/queries/raiseQuery"><FaClipboardList className="me-2" />Raise Query</Nav.Link>
         </>
       );
     }

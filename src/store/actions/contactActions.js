@@ -33,13 +33,17 @@ export const addContact = (contactData) => async dispatch => {
       type: ADD_CONTACT,
       payload: res.data
     });
+    dispatch(getUserContacts()); 
+    return res.data;
   } catch (err) {
-    console.error(err);
+    console.error('Error adding contact:', err);
+    throw err;
   }
 };
 
 export const getUserContacts = () => async dispatch => {
   try {
+    dispatch({ type: CONTACTS_LOADING });
     const res = await api.get('/contact/user');
     dispatch({
       type: GET_USER_CONTACTS,
@@ -48,7 +52,10 @@ export const getUserContacts = () => async dispatch => {
   } catch (err) {
     dispatch({
       type: CONTACT_ERROR,
-      payload: { msg: err.response.statusText, status: err.response.status }
+      payload: { 
+        msg: err.response?.statusText || 'An error occurred', 
+        status: err.response?.status || 500 
+      }
     });
   }
 };

@@ -5,10 +5,16 @@ import { getCustomers } from '../../store/actions/customerActions';
 import { Table, Button, Container, Modal, Card, Row, Col } from 'react-bootstrap';
 import { FaPlus, FaEdit, FaTrash, FaComments, FaUser, FaCalendar } from 'react-icons/fa';
 import CommunicationForm from './CommunicationForm';
+import { createSelector } from '@reduxjs/toolkit';
+
+const selectFilteredCommunications = createSelector(
+  state => state.communications.communications,
+  communications => communications.filter(comm => comm.type !== 'query')
+);
 
 const CommunicationList = () => {
   const dispatch = useDispatch();
-  const communications = useSelector(state => state.communications.communications);
+  const communications = useSelector(selectFilteredCommunications);
   const customers = useSelector(state => state.customers.customers);
   const [showModal, setShowModal] = useState(false);
   const [currentCommunication, setCurrentCommunication] = useState(null);

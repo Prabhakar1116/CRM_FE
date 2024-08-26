@@ -29,16 +29,20 @@ const ContactForm = ({ contact, customers, onClose }) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    if (contact) {
-      dispatch(updateContact(contact._id, formData));
-      toast.success('Contact updated successfully');
-    } else {
-      dispatch(addContact(formData));
-      toast.success('Contact added successfully');
+    try {
+      if (contact) {
+        await dispatch(updateContact(contact._id, formData));
+        toast.success('Contact updated successfully');
+      } else {
+        await dispatch(addContact(formData));
+        toast.success('Contact added successfully');
+      }
+      onClose();
+    } catch (error) {
+      toast.error('Failed to save contact');
     }
-    onClose();
   };
 
   return (

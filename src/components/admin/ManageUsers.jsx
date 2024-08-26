@@ -30,9 +30,23 @@ const ManageUsers = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    dispatch(updateUser(selectedUser._id, selectedUser));
+    if (selectedUser._id) {
+      dispatch(updateUser(selectedUser._id, selectedUser));
+      toast.success('User updated successfully');
+    } else {
+      dispatch(addUser(selectedUser));
+      toast.success('User added successfully');
+    }
     setShowModal(false);
-    toast.success('User updated successfully');
+  };
+
+  const handleInputChange = (e) => {
+    setSelectedUser({ ...selectedUser, [e.target.name]: e.target.value });
+  };
+
+  const handleAddNew = () => {
+    setSelectedUser({ name: '', email: '', role: 'user' });
+    setShowModal(true);
   };
 
   const filteredUsers = users.filter(user =>
@@ -40,26 +54,17 @@ const ManageUsers = () => {
     user.email.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
-  const handleRoleChange = async (userId, newRole) => {
-    if (window.confirm(`Are you sure you want to change this user's role to ${newRole}?`)) {
-      try {
-        await dispatch(updateUser(userId, { role: newRole }));
-        dispatch(getUsers()); // Refresh the users list
-        toast.success('User role updated successfully');
-      } catch (error) {
-        console.error('Error updating user role:', error);
-        toast.error('Failed to update user role');
-      }
-    }
-  };
-
   return (
     <Container fluid className="py-5 bg-light">
       <Row className="mb-4">
         <Col>
           <h2><FaUserCog className="me-2" />Manage Users</h2>
         </Col>
-        
+        <Col xs="auto">
+          <Button variant="primary" onClick={handleAddNew}>
+            <FaUserPlus className="me-2" />Add New User
+          </Button>
+        </Col>
       </Row>
       <Card className="shadow-sm mb-4">
         <Card.Body>
@@ -100,8 +105,53 @@ const ManageUsers = () => {
           </Table>
         </Card.Body>
       </Card>
+
+      <Modal show={showModal} onHide={() => setShowModal(false)}>
+        <Modal.Header closeButton>
+          <Modal.Title>{selectedUser && selectedUser._id ? 'Edit User' : 'Add New User'}</Modal.Title>
+        </Modal.Header>
+        <Modal.Body>
+          <Form onSubmit={handleSubmit}>
+            <Form.Group className="mb-3">
+              <Form.Label>Name</Form.Label>
+              <Form.Control
+                type="text"
+                name="name"
+                value={selectedUser ? selectedUser.name : ''}
+                onChange={handleInputChange}
+                required
+              />
+            </Form.Group>
+            <Form.Group className="mb-3">
+              <Form.Label>Email</Form.Label>
+              <Form.Control
+                type="email"
+                name="email"
+                value={selectedUser ? selectedUser.email : ''}
+                onChange={handleInputChange}
+                required
+              />
+            </Form.Group>
+            <Form.Group className="mb-3">
+              <Form.Label>Role</Form.Label>
+              <Form.Select
+                name="role"
+                value={selectedUser ? selectedUser.role : 'user'}
+                onChange={handleInputChange}
+                required
+              >
+                <option value="user">User</option>
+                <option value="admin">Admin</option>
+              </Form.Select>
+            </Form.Group>
+            <Button variant="primary" type="submit">
+              {selectedUser && selectedUser._id ? 'Update User' : 'Add User'}
+            </Button>
+          </Form>
+        </Modal.Body>
+      </Modal>
     </Container>
-);
+  );
 };
 
 export default ManageUsers;

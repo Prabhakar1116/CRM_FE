@@ -21,12 +21,20 @@ export const GET_CONTACTS = 'GET_CONTACTS';
 export const ADD_CONTACT = 'ADD_CONTACT';
 export const UPDATE_CONTACT = 'UPDATE_CONTACT';
 export const DELETE_CONTACT = 'DELETE_CONTACT';
+export const CONTACTS_LOADING = 'CONTACTS_LOADING';
 
 // Communication action types
 export const GET_COMMUNICATIONS = 'GET_COMMUNICATIONS';
 export const ADD_COMMUNICATION = 'ADD_COMMUNICATION';
 export const UPDATE_COMMUNICATION = 'UPDATE_COMMUNICATION';
 export const DELETE_COMMUNICATION = 'DELETE_COMMUNICATION';
+
+// Query action types
+export const GET_QUERIES = 'GET_QUERIES';
+export const GET_QUERIES_BY_CUSTOMER = 'GET_QUERIES_BY_CUSTOMER';
+export const RAISE_QUERY = 'RAISE_QUERY';
+export const UPDATE_QUERY = 'UPDATE_QUERY';
+export const DELETE_QUERY = 'DELETE_QUERY';
 
 // Feedback action types
 export const GET_FEEDBACK = 'GET_FEEDBACK';

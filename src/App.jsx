@@ -24,6 +24,8 @@ import UserProfile from './components/user/UserProfile';
 import UserContacts from './components/user/UserContacts';
 import FeedbackForm from './components/feedback/FeedbackForm';
 import FollowUpForm from './components/feedback/FollowupForm';
+import QueryList from './components/query/QueryList';
+import RaiseQueryForm from './components/query/RaiseQueryForm';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
@@ -66,6 +68,8 @@ function App() {
           <Route path="/feedback" element={<FeedbackList />} />
           <Route path="/followup" element={<FollowUpForm />} />
           <Route path="/reports" element={<Reports />} />
+          <Route path="/queries" element={<QueryList />} />
+          <Route path="/queries/raiseQuery" element={<RaiseQueryForm />} />
         </Route>
       </Routes>
       <ToastContainer position="top-right" autoClose={3000} hideProgressBar={false} newestOnTop={false} closeOnClick rtl={false} pauseOnFocusLoss draggable pauseOnHover />

@@ -1,5 +1,5 @@
 import api from '../../config/axios';
-import {GET_COMMUNICATIONS, ADD_COMMUNICATION, UPDATE_COMMUNICATION, DELETE_COMMUNICATION, GET_CUSTOMERS} from './types';
+import {GET_COMMUNICATIONS, ADD_COMMUNICATION, UPDATE_COMMUNICATION, DELETE_COMMUNICATION, GET_CUSTOMERS, GET_QUERIES, GET_QUERIES_BY_CUSTOMER, RAISE_QUERY} from './types';
 
 export const getCommunications = () => async dispatch => {
   try {
@@ -44,11 +44,12 @@ export const updateCommunication = (id, communicationData) => async dispatch => 
       type: UPDATE_COMMUNICATION,
       payload: res.data
     });
+    return Promise.resolve(res.data);
   } catch (err) {
     console.error(err);
+    return Promise.reject(err);
   }
 };
-
 export const deleteCommunication = (id) => async dispatch => {
   try {
     await api.delete(`/communication/${id}`);
@@ -58,5 +59,43 @@ export const deleteCommunication = (id) => async dispatch => {
     });
   } catch (err) {
     console.error(err);
+  }
+};
+
+export const getQueries = () => async dispatch => {
+  try {
+    const res = await api.get('/communication/queries');
+    dispatch({
+      type: GET_QUERIES,
+      payload: res.data
+    });
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+export const getQueriesByCustomer = (customerId) => async dispatch => {
+  try {
+    const res = await api.get(`/communication/queries/${customerId}`);
+    dispatch({
+      type: GET_QUERIES_BY_CUSTOMER,
+      payload: res.data
+    });
+  } catch (err) {
+    console.error(err);
+  }
+};
+
+export const raiseQuery = (queryData) => async dispatch => {
+  try {
+    const res = await api.post('/communication', { ...queryData, type: 'query' });
+    dispatch({
+      type: RAISE_QUERY,
+      payload: res.data
+    });
+    return Promise.resolve(res.data);
+  } catch (err) {
+    console.error('Error raising query:', err.response?.data || err.message);
+    return Promise.reject(err);
   }
 };

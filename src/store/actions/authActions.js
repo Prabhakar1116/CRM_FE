@@ -2,6 +2,7 @@ import axios from 'axios';
 import setAuthToken from '../../utils/setAuthToken';
 import { USER_LOADED, AUTH_ERROR, LOGIN_SUCCESS, LOGIN_FAIL, LOGOUT, REGISTER_SUCCESS, REGISTER_FAIL } from './types';
 import api from '../../config/axios';
+import { getUserContacts } from './contactActions';
 import { toast } from 'react-toastify';
 
 // Login User
@@ -22,6 +23,9 @@ export const login = (email, password) => async dispatch => {
       type: USER_LOADED,
       payload: user.data
     });
+
+    // Fetch user contacts after successful login
+    dispatch(getUserContacts());
 
     toast.dismiss('loginLoading');
     toast.success('Logged in successfully');
@@ -52,6 +56,7 @@ export const loadUser = () => async dispatch => {
       type: USER_LOADED,
       payload: res.data
     });
+    dispatch(getUserContacts()); // Add this line
   } catch (err) {
     dispatch({
       type: AUTH_ERROR

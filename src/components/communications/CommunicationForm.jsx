@@ -12,6 +12,7 @@ const communicationTypes = [
   'meeting',
   'video call',
   'social media',
+  'query',
   'other'
 ];
 

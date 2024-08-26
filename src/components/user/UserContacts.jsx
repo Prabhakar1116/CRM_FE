@@ -14,7 +14,8 @@ const UserContacts = () => {
     const [loading, setLoading] = useState(true);
     const [showModal, setShowModal] = useState(false);
     const [currentContact, setCurrentContact] = useState(null);
-
+    const error = useSelector(state => state.contacts.error);
+    
     useEffect(() => {
         const fetchData = async () => {
             await Promise.all([
